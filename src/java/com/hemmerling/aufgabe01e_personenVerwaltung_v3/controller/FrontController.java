@@ -11,6 +11,9 @@ import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSave
 import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonDeleteAction;
 import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonService;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,21 +50,20 @@ public class FrontController extends HttpServlet {
 
     private static Properties actionMap = new Properties();
 
-    static
-    {
-      // "actionName", FQN = "Fully Qualified Name"
-      actionMap.setProperty(FrontController.UPDATE, 
-                            "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
-      actionMap.setProperty(FrontController.CREATE,
-                            "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
-      actionMap.setProperty(FrontController.VIEW, 
-                            "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonViewAction");
-      actionMap.setProperty(FrontController.DELETE,
-                            "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonDeleteAction");
-      actionMap.setProperty(FrontController.SET,
-                            "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSetAction");
+    static {
+        // "actionName", FQN = "Fully Qualified Name"
+        actionMap.setProperty(FrontController.UPDATE,
+                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
+        actionMap.setProperty(FrontController.CREATE,
+                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
+        actionMap.setProperty(FrontController.VIEW,
+                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonViewAction");
+        actionMap.setProperty(FrontController.DELETE,
+                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonDeleteAction");
+        actionMap.setProperty(FrontController.SET,
+                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSetAction");
     }
-     
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -70,8 +74,8 @@ public class FrontController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, 
-                   InstantiationException, IllegalAccessException {
+            throws ServletException, IOException, ClassNotFoundException,
+            InstantiationException, IllegalAccessException {
         String nextPage = STARTPAGE;
         response.setContentType("text/html;charset=UTF-8");
 
@@ -85,53 +89,8 @@ public class FrontController extends HttpServlet {
 
         if (todo != null && !todo.trim().isEmpty()) {
             String className = actionMap.getProperty(todo);
-            Action action = (Action)Class.forName(className).newInstance();
-        }        
-    }
-
-     protected void processRequest_v2(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String nextPage = STARTPAGE;
-        response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession session = request.getSession();
-        PersonService personService = PersonService.getInstance(); // Singleton
-        Object obj = session.getAttribute(PERSONS);
-        List<String[]> persons = personService.get();
-        session.setAttribute(PERSONS, persons);
-
-        String action = request.getParameter(ACTION);
-
-        if (action != null && !action.trim().isEmpty()) {
-            switch (action) {
-               case UPDATE: {
-                    new PersonSaveAction().execute(request, response);
-                    nextPage = CREATEPAGE;
-                    break;
-                }
-               case CREATE: {
-                    new PersonSaveAction().execute(request, response);
-                    //nextPage = CREATEPAGE;
-                    nextPage = VIEWPAGE;
-                    break;
-                }
-                case VIEW: {
-                    nextPage = VIEWPAGE;
-                    break;
-                }
-                case DELETE: {
-                    new PersonDeleteAction().execute(request, response);
-                    nextPage = VIEWPAGE;
-                    break;
-                }
-                case SET: {
-                    new PersonSetAction().execute(request, response);
-                    //nextPage = CREATEPAGE;
-                    nextPage = VIEWPAGE;
-                    break;
-                }
-            }
-
+            Action action = (Action) Class.forName(className).newInstance();
+            action.execute(request, response);
         }
     }
 
@@ -149,12 +108,18 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -171,12 +136,18 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrontController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

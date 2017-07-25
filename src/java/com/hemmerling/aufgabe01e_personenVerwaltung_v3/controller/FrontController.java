@@ -90,7 +90,7 @@ public class FrontController extends HttpServlet {
         if (todo != null && !todo.trim().isEmpty()) {
             String className = actionMap.getProperty(todo);
             Action action = (Action) Class.forName(className).newInstance();
-            action.execute(request, response);
+            //action.execute(request, response);
         }
     }
 

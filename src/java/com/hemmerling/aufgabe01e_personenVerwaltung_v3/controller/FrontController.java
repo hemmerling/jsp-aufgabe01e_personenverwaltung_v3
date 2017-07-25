@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hemmerling.aufgabe01e_personenVerwaltung_v3.controller;
+package com.hemmerling.aufgabe01e_personenverwaltung_v3.controller;
 
-import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSetAction;
-import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.Action;
-import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction;
-import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonDeleteAction;
-import com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonService;
+import com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonSetAction;
+import com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.Action;
+import com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonSaveAction;
+import com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonDeleteAction;
+import com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
@@ -53,15 +53,15 @@ public class FrontController extends HttpServlet {
     static {
         // "actionName", FQN = "Fully Qualified Name"
         actionMap.setProperty(FrontController.UPDATE,
-                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
+                "com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonSaveAction");
         actionMap.setProperty(FrontController.CREATE,
-                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSaveAction");
+                "com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonSaveAction");
         actionMap.setProperty(FrontController.VIEW,
-                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonViewAction");
+                "com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonViewAction");
         actionMap.setProperty(FrontController.DELETE,
-                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonDeleteAction");
+                "com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonDeleteAction");
         actionMap.setProperty(FrontController.SET,
-                "com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.PersonSetAction");
+                "com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.PersonSetAction");
     }
 
     /**
@@ -90,7 +90,7 @@ public class FrontController extends HttpServlet {
         if (todo != null && !todo.trim().isEmpty()) {
             String className = actionMap.getProperty(todo);
             Action action = (Action) Class.forName(className).newInstance();
-            //action.execute(request, response);
+            action.execute(request, response);
         }
     }
 

@@ -6,8 +6,8 @@
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.io.PrintWriter"%>
-<%@page import="com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.persistence.Person"%>
-<%@page import="com.hemmerling.aufgabe01e_personenVerwaltung_v3.model.business.*"%>
+<%@page import="com.hemmerling.aufgabe01e_personenverwaltung_v3.model.persistence.Person"%>
+<%@page import="com.hemmerling.aufgabe01e_personenverwaltung_v3.model.business.*"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
